@@ -1,36 +1,6 @@
 
 #### Go to the Folder Directory selenium from the terminal and run each of the cmd command mentioned in the txt file from the selenium folder
 
-GET command: 
-Response response = RestAssured.given().auth().basic("username", "password").get("https://reqres.in/api/users?page=1");
-
-POST command :
-
-Response response = RestAssured.given().auth().basic("username", "password").with().contentType(ContentType.JSON).body(jsonbody.toString()).post("https://reqres.in/api/users");
-
-
-Success Codes
-Method	Code	Meaning	Description
-GET	200	OK	The request was successful and the resource is returned.
-POST	201	Created	Resource was created successfully. Typically used when creating new items.
-PUT	200	OK	Resource updated successfully (sometimes 204 is used instead).
-PUT	204	No Content	Resource updated, no content returned.
-DELETE	200	OK	Resource deleted and confirmation returned.
-DELETE	204	No Content	Resource deleted successfully, no content returned.
-
-Common Error Codes
-Code	Meaning	Typical Use Case
-400	Bad Request	Request is malformed or missing parameters.
-401	Unauthorized	Authentication is required or has failed.
-403	Forbidden	Authenticated, but not allowed to access this resource.
-404	Not Found	The requested resource doesn’t exist.
-405	Method Not Allowed	Method (GET/POST/etc.) not supported on the endpoint.
-409	Conflict	Conflict with current state (e.g., duplicate entry).
-415	Unsupported Media Type	Request body has unsupported format (e.g., wrong Content-Type).
-422	Unprocessable Entity	Valid data format but semantically incorrect (validation error).
-429	Too Many Requests	Rate limiting; client is sending requests too quickly.
-500	Internal Server Error	Generic server-side error.
-503	Service Unavailable	Server is overloaded or down for maintenance.
 
 
 
