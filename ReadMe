@@ -2,11 +2,3 @@
 #### Go to the Folder Directory selenium from the terminal and run each of the cmd command mentioned in the txt file from the selenium folder
 
 
-
-JavascriptExecutor js = (JavascriptExecutor) driver;
-WebElement element = findElement(submitclickoncheckbox);
-
-js.executeScript(
-    "if (!arguments[0].checked) { arguments[0].click(); }", 
-    element
-);
