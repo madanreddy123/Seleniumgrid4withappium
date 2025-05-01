@@ -4,55 +4,40 @@
 
 
 import io.restassured.RestAssured;
-import io.restassured.response.Response;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
-import static io.restassured.RestAssured.*;
+import static io.restassured.RestAssured.given;
 
-public class XrayApiWithRestAssuredProxy {
+public class XrayExecution {
 
     public static void main(String[] args) {
+        String token = "your_bearer_token"; // Replace with your token
+        String executionKey = "PROJECT-123";
+        String testCaseKey = "PROJECT-456";
 
-        // Step 1: Set Base URI
-        RestAssured.baseURI = "https://xray.cloud.getxray.app";
+        // Build the JSON object
+        JSONObject testCase = new JSONObject();
+        testCase.put("testKey", testCaseKey);
+        testCase.put("status", "PASSED");
 
-        // Step 2: Set Proxy using IP and Port
-        RestAssured.proxy("192.168.1.100", 8080); // Replace with your proxy IP and port
+        JSONArray tests = new JSONArray();
+        tests.put(testCase);
 
-        // Step 3: Authenticate using client_id and client_secret
-        String clientId = "your-client-id";         // Replace with actual Xray client ID
-        String clientSecret = "your-client-secret"; // Replace with actual secret
+        JSONObject body = new JSONObject();
+        body.put("testExecutionKey", executionKey);
+        body.put("tests", tests);
 
-        String authPayload = String.format(
-            "{ \"client_id\": \"%s\", \"client_secret\": \"%s\" }",
-            clientId, clientSecret
-        );
+        // Send the request
+        RestAssured.baseURI = "https://xray.cloud.getxray.app/api/v2";
 
-        String token = given()
+        given()
             .header("Content-Type", "application/json")
-            .body(authPayload)
-        .when()
-            .post("/api/v2/authenticate")
-        .then()
-            .statusCode(200)
-            .extract()
-            .asString()
-            .replace("\"", "");
-
-        System.out.println("Bearer Token: " + token);
-
-        // Step 4: Get Test Case Details using the Bearer Token
-        String testKey = "TEST-123"; // Replace with your actual test key
-
-        Response response = given()
             .header("Authorization", "Bearer " + token)
-            .header("Accept", "application/json")
+            .body(body.toString())
         .when()
-            .get("/api/v2/test/" + testKey)
+            .post("/import/execution")
         .then()
-            .statusCode(200)
-            .extract()
-            .response();
-
-        System.out.println("Test Case Response:\n" + response.asPrettyString());
+            .statusCode(200);
     }
 }
