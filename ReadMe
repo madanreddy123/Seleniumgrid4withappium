@@ -1,38 +1,49 @@
 
-#### Go to the Folder Directory selenium from the terminal and run each of the cmd command mentioned in the txt file from the selenium folder
+#### Go to the Folder Directory selenium from the terminal and run each of the cmd command mentioned in the txt file from the selenium 
+
 
 
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
+
 import static io.restassured.RestAssured.*;
 
-public class XrayApiExample {
+public class XrayApiWithRestAssuredProxy {
 
     public static void main(String[] args) {
-        // Set base URI
+
+        // Step 1: Set Base URI
         RestAssured.baseURI = "https://xray.cloud.getxray.app";
 
-        // Step 1: Get Bearer Token
-        String clientId = "your-client-id";
-        String clientSecret = "your-client-secret";
+        // Step 2: Set Proxy using IP and Port
+        RestAssured.proxy("192.168.1.100", 8080); // Replace with your proxy IP and port
+
+        // Step 3: Authenticate using client_id and client_secret
+        String clientId = "your-client-id";         // Replace with actual Xray client ID
+        String clientSecret = "your-client-secret"; // Replace with actual secret
+
+        String authPayload = String.format(
+            "{ \"client_id\": \"%s\", \"client_secret\": \"%s\" }",
+            clientId, clientSecret
+        );
 
         String token = given()
             .header("Content-Type", "application/json")
-            .body("{ \"client_id\": \"" + clientId + "\", \"client_secret\": \"" + clientSecret + "\" }")
+            .body(authPayload)
         .when()
             .post("/api/v2/authenticate")
         .then()
             .statusCode(200)
             .extract()
             .asString()
-            .replace("\"", ""); // Remove quotes from token
+            .replace("\"", "");
 
         System.out.println("Bearer Token: " + token);
 
-        // Step 2: Use token to get test case details
-        String testKey = "TEST-123"; // Replace with a real test case key
+        // Step 4: Get Test Case Details using the Bearer Token
+        String testKey = "TEST-123"; // Replace with your actual test key
 
-        Response testDetailsResponse = given()
+        Response response = given()
             .header("Authorization", "Bearer " + token)
             .header("Accept", "application/json")
         .when()
@@ -42,7 +53,6 @@ public class XrayApiExample {
             .extract()
             .response();
 
-        // Print test details
-        System.out.println("Test Case Response: " + testDetailsResponse.asPrettyString());
+        System.out.println("Test Case Response:\n" + response.asPrettyString());
     }
 }
