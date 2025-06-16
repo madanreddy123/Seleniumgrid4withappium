@@ -1,19 +1,2 @@
 
-#### Go to the Folder Directory selenium from the terminal and run each of the cmd command mentioned in the txt file from the file
-
-
-   @BeforeClass // Vinayaka
-public static void checkVmStatus() throws IOException {
-    if (ConstantsProvider.isSELENIUM_GRID_ACTIVE()) {
-        String selenium_vm_ip = ConstantsProvider.getSELENIUM_VM_IP();
-        int selenium_hub_port = ConstantsProvider.getSELENIUM_HUB_PORT();
-
-        try (Socket socket = new Socket()) {
-            socket.connect(new InetSocketAddress(selenium_vm_ip, selenium_hub_port), 300);
-        } catch (IOException e) {
-            Assumptions.assumeTrue(false, 
-                "Virtual Machine is not reachable: " + selenium_vm_ip + 
-                " or port: " + selenium_hub_port + " is closed. Exception: " + e.getMessage());
-        }
-    }
-}
+#### Go to the Folder Directory selenium from the terminal and run each of the cmd command mentioned in the txt file from the 
