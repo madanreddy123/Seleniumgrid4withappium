@@ -1,3 +1,14 @@
 
 #### Go to the Folder Directory selenium from the terminal and run each of the cmd command mentioned in the txt file from the file
 
+try (Socket socket = new Socket()) {
+    String selenium_vm_ip = ConstantsProvider.getSELENIUM_VM_IP();
+    int selenium_hub_port = ConstantsProvider.getSELENIUM_HUB_PORT();
+
+    InetSocketAddress address = new InetSocketAddress(selenium_vm_ip, selenium_hub_port);
+
+    Assumptions.assumeThatCode(() -> 
+        socket.connect(address, 300)
+    ).as("Virtual Machine is not reachable: " + selenium_vm_ip + " or port: " + selenium_hub_port + " is closed")
+     .doesNotThrowAnyException();
+}
