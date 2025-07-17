@@ -1,4 +1,25 @@
 
 #### Go to the Folder Directory selenium from the terminal and run each of the cmd command mentioned in the txt file from the 
 
--Djps.track.ap.dependencies=true
+<dependencies>
+  <!-- JAXB API -->
+  <dependency>
+    <groupId>javax.xml.bind</groupId>
+    <artifactId>jaxb-api</artifactId>
+    <version>2.3.1</version> <!-- or newer -->
+  </dependency>
+
+  <!-- JAXB Runtime (e.g., for Marshaller/Unmarshaller) -->
+  <dependency>
+    <groupId>org.glassfish.jaxb</groupId>
+    <artifactId>jaxb-runtime</artifactId>
+    <version>2.3.1</version>
+  </dependency>
+
+  <!-- Activation (required by JAXB) -->
+  <dependency>
+    <groupId>javax.activation</groupId>
+    <artifactId>activation</artifactId>
+    <version>1.1.1</version>
+  </dependency>
+</dependencies>
