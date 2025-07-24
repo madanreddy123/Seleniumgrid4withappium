@@ -3,11 +3,11 @@
 
 
 public static String extractOption() {
-    // Regular expression to capture the number after '-' and before 'of'
-    String regex = "\\d+\\s-\\s(\\d+)\\sof";
+    // Regular expression to capture any text before ' -'
+    String regex = "(.*?)\\s-\\s";
 
     // Input string
-    String input = "1 - 494 of 494";
+    String input = "Page 1 - 494 of 494";
 
     // Apply the regex to the input string
     java.util.regex.Pattern pattern = java.util.regex.Pattern.compile(regex);
