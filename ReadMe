@@ -2,12 +2,12 @@
 #### Go to the Folder Directory selenium from the terminal and run each of the cmd command mentioned in the txt file from the selenium folder
 
 
-public static String extractOption(String input) {
-    // Regular expression to capture the string between '1 -' and 'of'
-    String regex = "(?<=1 -\\s)(\\d+)(?=\\sof)";
+public static String extractOption() {
+    // Regular expression to capture the number after '-' and before 'of'
+    String regex = "\\d+\\s-\\s(\\d+)\\sof";
 
-    // Print the regex
-    System.out.println("Regex used: " + regex);
+    // Input string
+    String input = "1 - 494 of 494";
 
     // Apply the regex to the input string
     java.util.regex.Pattern pattern = java.util.regex.Pattern.compile(regex);
