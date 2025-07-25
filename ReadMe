@@ -2,21 +2,3 @@
 #### Go to the Folder Directory selenium from the terminal and run each of the cmd command mentioned in the txt file from the selenium folder
 
 
-public static String extractOption() {
-    // Regular expression to capture any text before ' -'
-    String regex = "(.*?)\\s-\\s";
-
-    // Input string
-    String input = "Page 1 - 494 of 494";
-
-    // Apply the regex to the input string
-    java.util.regex.Pattern pattern = java.util.regex.Pattern.compile(regex);
-    java.util.regex.Matcher matcher = pattern.matcher(input);
-
-    // Find and return the matched group
-    if (matcher.find()) {
-        return matcher.group(1);
-    }
-
-    return ""; // Return empty string if no match
-}
