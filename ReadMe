@@ -2,3 +2,67 @@
 #### Go to the Folder Directory selenium from the terminal and run each of the cmd command mentioned in the txt file from the selenium folder
 
 
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
+
+public class SortUtils {
+
+    public static boolean validateSort(WebDriver driver, By locator, String dataType, String order, String dateFormat) {
+        // Step 1: Capture UI values
+        List<WebElement> elements = driver.findElements(locator);
+        List<String> uiValues = new ArrayList<>();
+        for (WebElement e : elements) {
+            uiValues.add(e.getText().trim());
+        }
+
+        // Step 2: Convert to proper type
+        List<?> convertedUIValues;
+        switch (dataType.toLowerCase()) {
+            case "number":
+                List<Integer> nums = new ArrayList<>();
+                for (String v : uiValues) {
+                    nums.add(Integer.parseInt(v.replaceAll("[^0-9]", ""))); // handles currency/commas
+                }
+                convertedUIValues = nums;
+                break;
+
+            case "date":
+                List<LocalDate> dates = new ArrayList<>();
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern(dateFormat);
+                for (String v : uiValues) {
+                    dates.add(LocalDate.parse(v, formatter));
+                }
+                convertedUIValues = dates;
+                break;
+
+            default: // String
+                convertedUIValues = uiValues;
+                break;
+        }
+
+        // Step 3: Build expected sorted list
+        List<Object> expectedList = new ArrayList<>((List<Object>) convertedUIValues);
+
+        if (order.equalsIgnoreCase("asc")) {
+            Collections.sort((List) expectedList);
+        } else {
+            Collections.sort((List) expectedList, Collections.reverseOrder());
+        }
+
+        // Step 4: Compare
+        boolean result = convertedUIValues.equals(expectedList);
+        if (result) {
+            System.out.println("✅ Column sorted correctly (" + order.toUpperCase() + ")");
+        } else {
+            System.out.println("❌ Sorting failed!");
+            System.out.println("Expected: " + expectedList);
+            System.out.println("Actual:   " + convertedUIValues);
+        }
+        return result;
+    }
+}
